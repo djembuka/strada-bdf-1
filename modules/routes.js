@@ -1,15 +1,35 @@
 const { movies, categories } = require('./docsToCreate.js');
 
 function createRoutes(app, Category, Movie) {
-  app.post('/movies', async (req, res) => {
-    movies.forEach(async (doc) => {
-      let movie = await Movie.create(doc);
-      movie.save();
+  app
+    .route('/movies')
+    .post(async (req, res) => {
+      movies.forEach(async (doc) => {
+        let movie = await Movie.create(doc);
+        movie.save();
+      });
+      return res.status(201).send('movie created');
+    })
+    .get((req, res) => {
+      Movie.findOne(
+        { title: 'Titanic' },
+        'year duration',
+        function (err, movie) {
+          if (err) return handleError(err);
+          console.log(
+            'The movie %s lasts %s minutes.',
+            movie.year,
+            movie.duration
+          );
+        }
+      );
+      return res.status(201).send('movie found');
+    })
+    .put((req, res) => {
+      return res.status(201).send('movie upadated');
     });
-    return res.status(201).send('movie created');
-  });
 
-  app.post('/categories', async (req, res) => {
+  app.route('/categories').post(async (req, res) => {
     categories.forEach(async (doc) => {
       let category = await Category.create(doc);
       category.save();
@@ -18,23 +38,7 @@ function createRoutes(app, Category, Movie) {
   });
 
   app.get('/', (req, res) => {
-    res.send('Hello, world!');
-  });
-
-  app.get('/user', (req, res) => {
-    res.send('This is a user page. Just any user');
-  });
-
-  app.post('/', (req, res) => {
-    res.send('Got a POST request');
-  });
-
-  app.put('/user', (req, res) => {
-    res.send('Get a PUT request at /user');
-  });
-
-  app.delete('/user', (req, res) => {
-    res.send('Got a DELETE request at /user');
+    res.send('The application has started.');
   });
 }
 
