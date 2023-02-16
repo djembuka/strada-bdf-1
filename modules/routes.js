@@ -10,23 +10,38 @@ function createRoutes(app, Category, Movie) {
       });
       return res.status(201).send('movie created');
     })
-    .get((req, res) => {
+    .get(async (req, res) => {
       Movie.findOne(
         { title: 'Titanic' },
-        'year duration',
+        'title year duration',
         function (err, movie) {
           if (err) return handleError(err);
           console.log(
-            'The movie %s lasts %s minutes.',
+            'The movie %s of %s lasts %s minutes.',
+            movie.title,
             movie.year,
             movie.duration
           );
         }
       );
-      return res.status(201).send('movie found');
+      let list = await Movie.find({ title: 'Titanic' }, 'year');
+      return res.status(201).send(list);
     })
-    .put((req, res) => {
-      return res.status(201).send('movie upadated');
+    .put(async (req, res) => {
+      Movie.findByIdAndUpdate(
+        req.query.id,
+        {
+          year: 2008,
+        },
+        {},
+        () => {}
+      );
+      let movie = await Movie.findOne({ id: req.query.id });
+      return res.status(201).send(`The movie "${movie.title}" updated`);
+    })
+    .delete((req, res) => {
+      Movie.findByIdAndDelete(req.query.id, {}, () => {});
+      return res.status(201).send('movie deleted');
     });
 
   app.route('/categories').post(async (req, res) => {
