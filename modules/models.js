@@ -14,4 +14,12 @@ const MovieSchema = new mongoose.Schema({
 });
 const Movie = mongoose.model('Movie', MovieSchema);
 
-module.exports = { Category, Movie };
+const CommentSchema = new mongoose.Schema({
+  movie: { type: 'ObjectId', ref: 'Movie' },
+  author: String,
+  text: String,
+  timestamp: Number,
+});
+const Comment = mongoose.model('Comment', CommentSchema);
+
+module.exports = { Category, Movie, Comment };

@@ -12,11 +12,9 @@ app.use(
 );
 
 require('./modules/dbConnect.js');
+const { createRoutes } = require('./routes/routes.js');
 
-const { Category, Movie } = require('./modules/models.js');
-const { createRoutes } = require('./modules/routes.js');
-
-createRoutes(app, Category, Movie);
+createRoutes(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
