@@ -28,7 +28,9 @@ const createCommentRoutes = (app) => {
       return res.status(201).send(`Comment by ${comment.author} found.`);
     })
     .put(async (req, res) => {
-      await updateComment(req.params.commentId, { text: 'New text' });
+      await updateComment(req.params.commentId, {
+        movie: '63f5d42e75d06917b6cfe878',
+      });
       const comment = await getComment(req.params.commentId);
       return res.status(201).send(`The comment now is: ${comment.text}`);
     })

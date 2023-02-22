@@ -9,7 +9,7 @@ const getAllMovies = () => {
 };
 
 const getMovie = (movieId) => {
-  return Movie.findById(movieId);
+  return Movie.findById(movieId).populate('directorId');
 };
 
 const updateMovie = async (movieId, dataToUpdate) => {

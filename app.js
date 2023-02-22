@@ -1,7 +1,8 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 5000;
 
 //app.use(express.json());
 const allowedOrigins = [''];
@@ -16,6 +17,6 @@ const { createRoutes } = require('./routes/routes.js');
 
 createRoutes(app);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(process.env.DB_CONNECT_PORT, () => {
+  console.log(`Example app listening on port ${process.env.DB_CONNECT_PORT}`);
 });
