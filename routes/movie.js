@@ -1,3 +1,5 @@
+const { validate } = require('../middleware/movie.js');
+
 const {
   createMovie,
   getAllMovies,
@@ -18,7 +20,7 @@ const createMovieRoutes = (app) => {
       });
       return res.status(201).send('movies created');
     })
-    .get(async (req, res) => {
+    .get(validate(['title']), async (req, res) => {
       let list = await getAllMovies();
       return res.status(201).send(list);
     });
